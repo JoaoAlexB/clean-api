@@ -1,8 +1,8 @@
-import { AddAccountRepository, CheckAccountByEmailRepository, LoadAccountByEmailRepository, LoadAccountByTokenRepository, UpdateAccessTokenRepository } from '../../../data/protocols'
+import { AddAccountRepository, CheckAccountByEmailRepository, LoadAccountByEmailRepository, LoadAccountByTokenRepository, UpdateAccessTokenRepository, UpdatePasswordRepository } from '../../../data/protocols'
 import { PrismaClient } from '@prisma/client'
 const prisma = new PrismaClient()
 
-export class AccountPrismaRepository implements AddAccountRepository, LoadAccountByEmailRepository, UpdateAccessTokenRepository, LoadAccountByTokenRepository, CheckAccountByEmailRepository {
+export class AccountPrismaRepository implements AddAccountRepository, LoadAccountByEmailRepository, UpdateAccessTokenRepository, LoadAccountByTokenRepository, CheckAccountByEmailRepository, UpdatePasswordRepository {
     async add (data: AddAccountRepository.Params): Promise<AddAccountRepository.Result> {
       const account = await prisma.user.create({
         data
@@ -39,4 +39,15 @@ export class AccountPrismaRepository implements AddAccountRepository, LoadAccoun
 			})
       return account;
     }
+
+    async updatePassword(id: string, newPassword: string): Promise<void>{
+      await prisma.user.updateMany({
+        where: {id},
+        data:{
+          password: newPassword
+        },
+      })
+    }
+
+    
   }

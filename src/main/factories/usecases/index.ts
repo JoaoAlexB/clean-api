@@ -1,2 +1,5 @@
 export * from './add-account-factory'
 export * from './authentication-factory'
+export * from './recovery-password-factory'
+export * from './reset-password-factory'
+export * from './load-account-by-token-factory'
